@@ -1505,7 +1505,8 @@ ibus_hangul_engine_process_key_event (IBusEngine     *engine,
 	bool is_transliteration_mode =
 		 hangul_ic_is_transliteration(hangul->context);
 	if (!is_transliteration_mode) {
-	    if (keymap != NULL)
+	    // on screen keyboard will send key event without keycode.
+	    if (keymap != NULL && keycode != 0)
 		keyval = ibus_keymap_lookup_keysym(keymap, keycode, modifiers);
 	}
 
