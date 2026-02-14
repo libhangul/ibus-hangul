@@ -69,6 +69,15 @@ PKG_CHECK_MODULES(GTK, [
     gtk+-3.0 >= 3.0.0
 ])
 
+# check hangul_ic_set_option() in libhangul newer version
+LIBS_BACKUP=$LIBS
+LIBS=$HANGUL_LIBS
+AC_CHECK_LIB(hangul, [hangul_ic_set_option],
+    [AC_DEFINE([LIBHANGUL_HAVE_HANGUL_IC_SET_OPTION], [1], [hangul_ic_set_option()])],
+    []
+)
+LIBS=$LIBS_BACKUP
+
 # check env
 AC_PATH_PROG(ENV_PROG, env)
 AC_SUBST(ENV_PROG)

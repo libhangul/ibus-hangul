@@ -197,11 +197,13 @@ static IBusText*
                                             (IBusHangulEngine       *hangul,
                                              int                     input_mode);
 
+#if !defined(LIBHANGUL_HAVE_HANGUL_IC_SET_OPTION)
 static bool ibus_hangul_engine_on_transition
                                             (HangulInputContext     *hic,
                                              ucschar                 c,
                                              const ucschar          *preedit,
                                              void                   *data);
+#endif
 
 static void        settings_changed         (GSettings              *settings,
                                              const gchar            *key,
@@ -597,8 +599,13 @@ ibus_hangul_engine_init (IBusHangulEngine *hangul)
     ++last_context_id;
 
     hangul->context = hangul_ic_new (hangul_keyboard->str);
+#if defined(LIBHANGUL_HAVE_HANGUL_IC_SET_OPTION)
+    hangul_ic_set_option (hangul->context, HANGUL_IC_OPTION_AUTO_REORDER,
+                          auto_reorder);
+#else
     hangul_ic_connect_callback (hangul->context, "transition",
                                 ibus_hangul_engine_on_transition, hangul);
+#endif
 
     hangul->preedit = ustring_new();
     hangul->preedit_mode = global_preedit_mode;
@@ -1886,6 +1893,7 @@ ibus_hangul_engine_set_input_mode (IBusHangulEngine *hangul, int input_mode)
     ibus_engine_update_property (IBUS_ENGINE (hangul), prop);
 }
 
+#if !defined(LIBHANGUL_HAVE_HANGUL_IC_SET_OPTION)
 static bool
 ibus_hangul_engine_on_transition (HangulInputContext     *hic,
                                   ucschar                 c,
@@ -1906,6 +1914,7 @@ ibus_hangul_engine_on_transition (HangulInputContext     *hic,
 
     return true;
 }
+#endif
 
 static void
 print_changed_settings (const gchar *schema_id, const gchar *key, GVariant *value)
@@ -1946,6 +1955,10 @@ settings_changed (GSettings    *settings,
             print_changed_settings (schema_id, key, value);
         } else if (strcmp (key, "auto-reorder") == 0) {
             auto_reorder = g_variant_get_boolean (value);
+#if defined(LIBHANGUL_HAVE_HANGUL_IC_SET_OPTION)
+            hangul_ic_set_option (hangul->context,
+                                  HANGUL_IC_OPTION_AUTO_REORDER, auto_reorder);
+#endif
             print_changed_settings (schema_id, key, value);
         } else if (strcmp (key, "switch-keys") == 0) {
             const gchar* str = g_variant_get_string(value, NULL);
