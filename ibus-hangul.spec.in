@@ -45,7 +45,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING README
-%{_bindir}/ibus-setup-hangul
 %{_libexecdir}/ibus-engine-hangul
 %{_libexecdir}/ibus-setup-hangul
 %{_datadir}/applications

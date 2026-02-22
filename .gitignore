@@ -52,6 +52,8 @@ po/stamp-it
 # files for setup
 setup/config.py
 setup/ibus-setup-hangul
+setup/ibus-setup-hangul.desktop
+setup/ibus-setup-hangul.desktop.in
 
 # files for engine
 src/test.sh

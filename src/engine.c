@@ -1786,7 +1786,7 @@ ibus_hangul_engine_property_activate (IBusEngine    *engine,
         GError *error = NULL;
         gchar *argv[2] = { NULL, };
 
-        argv[0] = "ibus-setup-hangul";
+        argv[0] = LIBEXECDIR "/ibus-setup-hangul";
         argv[1] = NULL;
         g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error);
     } else if (strcmp(prop_name, "InputMode") == 0) {
