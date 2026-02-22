@@ -107,9 +107,10 @@ class Setup ():
         model = Gtk.ListStore(str)
 
         keylist_str = self.__read("switch-keys").get_string()
-        self.__hangul_key_list_str = keylist_str.split(',')
-        for i in self.__hangul_key_list_str:
-            model.append([i])
+        if keylist_str:
+            self.__hangul_key_list_str = keylist_str.split(',')
+            for i in self.__hangul_key_list_str:
+                model.append([i])
 
         self.__hangul_key_list = self.__builder.get_object("HangulKeyList")
         self.__hangul_key_list.set_model(model)
@@ -130,9 +131,10 @@ class Setup ():
         model = Gtk.ListStore(str)
 
         keylist_str = self.__read("hanja-keys").get_string()
-        self.__hanja_key_list_str = keylist_str.split(',')
-        for i in self.__hanja_key_list_str:
-            model.append([i])
+        if keylist_str:
+            self.__hanja_key_list_str = keylist_str.split(',')
+            for i in self.__hanja_key_list_str:
+                model.append([i])
 
         self.__hanja_key_list = self.__builder.get_object("HanjaKeyList")
         self.__hanja_key_list.set_model(model)
@@ -153,9 +155,10 @@ class Setup ():
         model = Gtk.ListStore(str)
 
         keylist_str = self.__read("off-keys").get_string()
-        self.__off_key_list_str = keylist_str.split(',')
-        for i in self.__off_key_list_str:
-            model.append([i])
+        if keylist_str:
+            self.__off_key_list_str = keylist_str.split(',')
+            for i in self.__off_key_list_str:
+                model.append([i])
 
         self.__off_key_list = self.__builder.get_object("OffKeyList")
         self.__off_key_list.set_model(model)
@@ -175,9 +178,10 @@ class Setup ():
         model = Gtk.ListStore(str)
 
         keylist_str = self.__read("on-keys").get_string()
-        self.__on_key_list_str = keylist_str.split(',')
-        for i in self.__on_key_list_str:
-            model.append([i])
+        if keylist_str:
+            self.__on_key_list_str = keylist_str.split(',')
+            for i in self.__on_key_list_str:
+                model.append([i])
 
         self.__on_key_list = self.__builder.get_object("OnKeyList")
         self.__on_key_list.set_model(model)
@@ -402,9 +406,21 @@ class Setup ():
                     self.__hangul_keyboard.set_active(i[2])
                     break
         elif key == "switch-keys":
-            self.__hangul_key_list_str = value.get_string().split(',')
+            keylist_str = value.get_string()
+            if keylist_str:
+                self.__hangul_key_list_str = keylist_str.split(',')
         elif key == "hanja-keys":
-            self.__hanja_key_list_str = value.get_string().split(',')
+            keylist_str = value.get_string()
+            if keylist_str:
+                self.__hanja_key_list_str = keylist_str.split(',')
+        elif key == "off-keys":
+            keylist_str = value.get_string()
+            if keylist_str:
+                self.__off_key_list_str = keylist_str.split(',')
+        elif key == "on-keys":
+            keylist_str = value.get_string()
+            if keylist_str:
+                self.__on_key_list_str = keylist_str.split(',')
 
     def __read(self, key):
         return self.__settings.get_value(key)
