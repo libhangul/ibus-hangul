@@ -30,10 +30,18 @@ setup_hanguldir = $(pkgdatadir)/setup
 
 libexec_SCRIPTS = ibus-setup-hangul
 
-desktop_in_files = ibus-setup-hangul.desktop.in
+desktop_in_in_files = ibus-setup-hangul.desktop.in.in
+desktop_in_files = $(desktop_in_in_files:.desktop.in.in=.desktop.in)
 desktop_files = $(desktop_in_files:.desktop.in=.desktop)
 desktop_DATA = $(desktop_files)
 desktopdir = $(datadir)/applications
+
+# replace libexecdir
+$(desktop_in_files): %.desktop.in: %.desktop.in.in Makefile
+	$(AM_V_GEN) sed \
+	        -e "s|\@libexecdir\@|$(libexecdir)|" \
+	        -e "s|\@pkgdatadir\@|$(pkgdatadir)|" \
+	        $< > $@.tmp && mv $@.tmp $@
 
 $(desktop_files): $(desktop_in_files) Makefile
 	$(AM_V_GEN)$(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=IBus Hangul Preferences
 Comment=Set IBus Hangul Preferences
-Exec=ibus-setup-hangul
+Exec=@libexecdir@/ibus-setup-hangul
 Icon=ibus-setup-hangul
 NoDisplay=true
 Terminal=false
