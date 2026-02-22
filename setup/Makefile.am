@@ -72,19 +72,3 @@ config.py: config.py.in Makefile
 ibus-setup-hangul: ibus-setup-hangul.in config.py Makefile
 	sed -e 's&@SETUP_PKGDATADIR@&$(pkgdatadir)&g' \
 	    -e 's&\@PYTHON\@&$(PYTHON)&g' $< > $@
-
-install-exec-hook:
-	$(MKDIR_P) $(DESTDIR)$(bindir)
-	cd $(DESTDIR)$(bindir) && \
-	rm -f ibus-setup-hangul && \
-	a="$(bindir)"; b="$(libexecdir)"; updir=""; downdir=""; \
-	while test "$$a" != "$$b"; do \
-		bbase=`basename $$b`; \
-		updir="../$$updir"; \
-		downdir="$$bbase/$$downdir"; \
-		a=`dirname $$a`; b=`dirname $$b`; \
-	done; \
-	$(LN_S) $$updir$${downdir}ibus-setup-hangul ibus-setup-hangul
-
-uninstall-hook:
-	cd "$(DESTDIR)$(bindir)" && rm -f ibus-setup-hangul
