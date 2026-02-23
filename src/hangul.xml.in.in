@@ -23,6 +23,7 @@
 			<description>Korean Input Method</description>
 			<rank>99</rank>
 			<symbol>&#xD55C;&#xAE00;</symbol>
+			<icon_prop_key>InputMode</icon_prop_key>
 			<setup>${libexecdir}/ibus-setup-hangul</setup>
 		</engine>
 	</engines>
